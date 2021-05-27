@@ -1,4 +1,5 @@
 const { usersignup } = require("../Database/userSchema");
+const {PosttenderModel} = require("../Database/TenderSchema")
 var jwt = require('jsonwebtoken');
 // signup user /tender/poster
 const signup = async (req, res) => {
@@ -12,10 +13,11 @@ const signup = async (req, res) => {
        if(data.password===data.cpassword){
         const dataCheck = new usersignup(data);
         await dataCheck.save();
-        jwt.sign({ email: dataCheck.email }, "thisisthesecretkey", function(err, token) {
-        res.json({token:token,userData:dataCheck});
-        console.log(err);
-       });
+        res.json({userData:dataCheck});
+      //   jwt.sign({ email: dataCheck.email }, "thisisthesecretkey", function(err, token) {
+      //   res.json({token:token,userData:dataCheck});
+      //   console.log(err);
+      //  });
        }
 
   } catch (error) {
@@ -28,20 +30,21 @@ const signup = async (req, res) => {
 //signin tender/poster
 const singin = async (req, res) => {
   const { email, password} = req.body;
-  var {authorization} = req.headers
-  const token = authorization.replace("Bearer ", "");
+  // var {authorization} = req.headers
+  // const token = authorization.replace("Bearer ", "");
    try {
     const isExists = await usersignup.findOne({email,password});
      if (isExists===null) {
-      res.json({ err: "err" });
+      res.json({ err: "user does not exists" });
     }
     if (isExists !== null) {
-      jwt.verify(token, 'thisisthesecretkey', function(err, decoded) {
-         res.json({ success: "true", user: isExists })  
-         if(err){
-          res.json({ValidUser:"false"})
-         }
-      });
+       res.json({ success: "true", user: isExists })
+      // jwt.verify(token, 'thisisthesecretkey', function(err, decoded) {
+      //    res.json({ success: "true", user: isExists })  
+      //    if(err){
+      //     res.json({ValidUser:"false"})
+      //    }
+      // });
       
     }
 

@@ -1,4 +1,5 @@
 const express = require("express");
+const mongoose = require("mongoose");
 const cors = require("cors");
 const router = require('../controller/routes');
 const app = express();
@@ -13,3 +14,17 @@ app.use("/user",router)
 app.listen(Port, () => {
   console.log(`server is listening at port ${Port}`);
 });
+ //database connection 
+mongoose
+  .connect(
+    "mongodb+srv://haris:haris@cluster0.eg5ud.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+    { 
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+      useFindAndModify: false,
+    }
+  )
+  .then(() => console.log("Database connected"))
+  .catch((err) => console.log(`DB connection failed ${err}`));
+mongoose.set("useNewUrlParser", true);
+mongoose.set("useCreateIndex", true);

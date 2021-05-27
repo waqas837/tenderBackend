@@ -4,8 +4,7 @@ const {
   singin,
   signup, 
 } = require("./userLogics");
-// routes for user account
-
+// routes for user account/tender/poster
 router.post("/signup", signup);
 router.post("/signin", singin);
  
