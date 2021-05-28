@@ -55,7 +55,48 @@ const singin = async (req, res) => {
   }
 };
 
+//
+const tenderPostData = async (req, res) => {   
+  try {
+    var data = new PosttenderModel({email:req.body.email,tenderDetail:req.body})
+    await data.save();
+  } catch (error) {
+    console.log(`error during sigin the data ${error}`);
+
+  }
+}
+//show the tender's posted data
+
+const showtenderdata = async (req, res) => {   
+  // console.log(req.body)
+  try {
+    var data = await PosttenderModel.find({email:req.params.email})
+    console.log(data)
+    if(data!==null){
+      res.json({data})
+    }
+  } catch (error) {
+    console.log(`error during getting tender's posted data ${error}`);
+
+  }
+}
+
+//show the tender's posted data
+
+const showtenderprofile = async (req, res) => {   
+  // console.log(req.body)
+  try {
+    var data = await usersignup.find({email:req.params.email})
+    console.log(data)
+    if(data!==null){
+      res.json({data})
+    }
+  } catch (error) {
+    console.log(`error during getting tender's posted data ${error}`);
+
+  }
+}
 module.exports = {
   signup,
-  singin,
+  singin,tenderPostData,showtenderdata,showtenderprofile
 };

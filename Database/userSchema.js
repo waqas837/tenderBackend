@@ -1,11 +1,14 @@
 const mongoose = require("mongoose");
 const validator = require("validator");
 
-const tenderorbidder = new mongoose.Schema({
+var tenderorbidder = new mongoose.Schema({
   username:{
     unique: true,
     type: String,
   },
+  // profilepic:{
+  //  type:String,
+  // },
   email: {
     unique: true,
     type: String,

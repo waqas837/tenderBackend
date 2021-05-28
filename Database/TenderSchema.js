@@ -1,10 +1,5 @@
 const mongoose = require("mongoose");
-const PostNewtenderSch = new mongoose.Schema({
- 
-  email: {
-    type: String,
-    
-    required: true,
+var tenderdetails = new mongoose.Schema({
     selectedFile:{
         type: String,
         required: true,
@@ -22,13 +17,13 @@ const PostNewtenderSch = new mongoose.Schema({
         required: true,
     },
 
-  },
- 
-
-  status:{
+})
+var PostNewtenderSch = new mongoose.Schema({
+  email: {
     type: String,
     required: true,
-  }
+  },
+  tenderDetail:[tenderdetails]
 }); 
  
 const PosttenderModel = new mongoose.model("posttender", PostNewtenderSch);
