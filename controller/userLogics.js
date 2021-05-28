@@ -60,8 +60,11 @@ const tenderPostData = async (req, res) => {
   try {
     var data = new PosttenderModel({email:req.body.email,tenderDetail:req.body})
     await data.save();
+    // console.log(data)
+      res.json({data})
+  
   } catch (error) {
-    console.log(`error during sigin the data ${error}`);
+    console.log(`error during tender post the data ${error}`);
 
   }
 }
