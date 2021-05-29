@@ -4,7 +4,7 @@ var jwt = require('jsonwebtoken');
 // signup user /tender/poster
 const signup = async (req, res) => {
   const data = req.body;
-  console.log(data);
+  // console.log(data);
  
   try {
     if(data.password!==data.cpassword){
@@ -57,7 +57,8 @@ const singin = async (req, res) => {
 
 //
 const tenderPostData = async (req, res) => {   
-  try {
+  // console.log(req.body)
+   try {
     var data = new PosttenderModel({email:req.body.email,tenderDetail:req.body})
     await data.save();
     // console.log(data)
@@ -74,7 +75,7 @@ const showtenderdata = async (req, res) => {
   // console.log(req.body)
   try {
     var data = await PosttenderModel.find({email:req.params.email})
-    console.log(data)
+    // console.log(data)
     if(data!==null){
       res.json({data})
     }
@@ -85,12 +86,11 @@ const showtenderdata = async (req, res) => {
 }
 
 //show the tender's posted data
-
 const showtenderprofile = async (req, res) => {   
   // console.log(req.body)
   try {
     var data = await usersignup.find({email:req.params.email})
-    console.log(data)
+    // console.log(data)
     if(data!==null){
       res.json({data})
     }
@@ -99,7 +99,34 @@ const showtenderprofile = async (req, res) => {
 
   }
 }
+//find data from the embbeded document
+const deleteTender = async (req, res) => {  
+  const {_id} = req.params
+  // console.log(_id)
+     try {
+        //note: {object formate array.property does not support dirctly,but we can write it inside the 'qoutes'}
+        const data = await  PosttenderModel.findOne({'tenderDetail._id':_id })
+        console.log(data)
+     
+  } catch (error) {
+    console.log(`error during getting tender's posted data ${error}`);
+
+  }
+}
+
+//find data from the embbeded document
+const getAllteders = async (req, res) => {  
+      try {
+        //note: {object formate array.property does not support dirctly,but we can write it inside the 'qoutes'}
+        const data = await  PosttenderModel.find()
+        res.json({data})
+     
+  } catch (error) {
+    console.log(`error during getting tender's posted data ${error}`);
+
+  }
+}
 module.exports = {
   signup,
-  singin,tenderPostData,showtenderdata,showtenderprofile
+  singin,tenderPostData,showtenderdata,showtenderprofile,deleteTender,getAllteders
 };
