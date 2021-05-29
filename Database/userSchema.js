@@ -3,7 +3,6 @@ const validator = require("validator");
 
 var tenderorbidder = new mongoose.Schema({
   username:{
-    unique: true,
     type: String,
   },
   phone:{

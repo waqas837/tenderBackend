@@ -128,6 +128,7 @@ const getAllteders = async (req, res) => {
 }
 //find data from the embbeded document
 const updateProfile = async (req, res) => {  
+ 
   try {
     //note: {object formate array.property does not support dirctly,but we can write it inside the 'qoutes'}
     const data = await  usersignup.findOneAndUpdate({email:req.params.email},req.body,
