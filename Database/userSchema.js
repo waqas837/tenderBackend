@@ -6,9 +6,13 @@ var tenderorbidder = new mongoose.Schema({
     unique: true,
     type: String,
   },
-  // profilepic:{
-  //  type:String,
-  // },
+  phone:{
+    unique: true,
+    type: String,
+  },
+  selectedFile:{
+   type:String,
+  },
   email: {
     unique: true,
     type: String,

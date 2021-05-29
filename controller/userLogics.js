@@ -126,7 +126,22 @@ const getAllteders = async (req, res) => {
 
   }
 }
+//find data from the embbeded document
+const updateProfile = async (req, res) => {  
+  try {
+    //note: {object formate array.property does not support dirctly,but we can write it inside the 'qoutes'}
+    const data = await  usersignup.findOneAndUpdate({email:req.params.email},req.body,
+      {
+        new: true
+      })
+    res.json({data})
+ 
+} catch (error) {
+console.log(`error during getting tender's posted data ${error}`);
+
+}
+}
 module.exports = {
   signup,
-  singin,tenderPostData,showtenderdata,showtenderprofile,deleteTender,getAllteders
+  singin,tenderPostData,showtenderdata,showtenderprofile,deleteTender,getAllteders,updateProfile
 };
