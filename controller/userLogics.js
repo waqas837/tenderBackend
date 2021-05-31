@@ -1,5 +1,6 @@
 const { usersignup } = require("../Database/userSchema");
 const {PosttenderModel} = require("../Database/TenderSchema")
+const mongoose = require('mongoose');
 var jwt = require('jsonwebtoken');
 // signup user /tender/poster
 const signup = async (req, res) => {
@@ -106,7 +107,7 @@ const deleteTender = async (req, res) => {
      try {
         //note: {object formate array.property does not support dirctly,but we can write it inside the 'qoutes'}
         const data = await  PosttenderModel.findOne({'tenderDetail._id':_id })
-        console.log(data)
+        // console.log(data)
      
   } catch (error) {
     console.log(`error during getting tender's posted data ${error}`);
@@ -131,7 +132,7 @@ const updateProfile = async (req, res) => {
  
   try {
     //note: {object formate array.property does not support dirctly,but we can write it inside the 'qoutes'}
-    const data = await  usersignup.findOneAndUpdate({email:req.params.email},req.body,
+    const data = await usersignup.findOneAndUpdate({email:req.params.email},req.body,
       {
         new: true
       })
@@ -142,7 +143,43 @@ console.log(`error during getting tender's posted data ${error}`);
 
 }
 }
+//fist bid
+const firstbid = async (req, res) => {  
+ 
+      try {
+    // note: {object formate array.property does not support dirctly,but we can write it inside the 'qoutes'}
+      const doc = await PosttenderModel.findOne({"tenderDetail._id":req.params._id})
+      var sdf = doc.tenderDetail[0]
+      var body = req.body
+       var bidderemail = body.bidderemail
+       var bidderprice  = body.bidderprice
+       var title = sdf.title
+       var description = sdf.description
+       var initialprice = sdf.initialprice
+       var selectedFile = sdf.selectedFile
+       const data = await PosttenderModel.findByIdAndUpdate({
+        _id:doc._id,
+       },
+         {
+        email:doc.email,
+        tenderDetail:{
+        bidderemail:bidderemail,
+        bidderprice:bidderprice,
+        title:title,
+        description:description,
+        initialprice:initialprice,
+        selectedFile:selectedFile
+      }})
+       
+      res.json({data})
+  } catch (error) {
+console.log(`error during first bid tender's posted data ${error}`);
+
+}
+}
 module.exports = {
   signup,
-  singin,tenderPostData,showtenderdata,showtenderprofile,deleteTender,getAllteders,updateProfile
+  singin,tenderPostData,showtenderdata,
+  showtenderprofile,deleteTender,
+  getAllteders,updateProfile,firstbid
 };

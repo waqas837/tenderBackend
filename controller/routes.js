@@ -2,7 +2,8 @@ const express = require("express");
 const router = express.Router();
   const {
   singin,
-  signup,tenderPostData,showtenderdata,showtenderprofile,deleteTender,getAllteders,updateProfile
+  signup,tenderPostData,showtenderdata,
+  showtenderprofile,deleteTender,getAllteders,updateProfile,firstbid
 } = require("./userLogics");
 // routes for user account/tender/poster
 router.post("/signup", signup);
@@ -13,5 +14,6 @@ router.get("/showtenderprofile/:email", showtenderprofile);
 router.get("/deleteTender/:_id", deleteTender);
 router.get("/getAllteders", getAllteders);
 router.put("/updateProfile/:email", updateProfile);
+router.put("/firstbid/:_id", firstbid);
 
 module.exports = router;
