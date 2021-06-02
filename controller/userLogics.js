@@ -148,30 +148,13 @@ const firstbid = async (req, res) => {
  
       try {
     // note: {object formate array.property does not support dirctly,but we can write it inside the 'qoutes'}
-      const doc = await PosttenderModel.findOne({"tenderDetail._id":req.params._id})
-      var sdf = doc.tenderDetail[0]
-      var body = req.body
-       var bidderemail = body.bidderemail
-       var bidderprice  = body.bidderprice
-       var title = sdf.title
-       var description = sdf.description
-       var initialprice = sdf.initialprice
-       var selectedFile = sdf.selectedFile
-       const data = await PosttenderModel.findByIdAndUpdate({
-        _id:doc._id,
-       },
-         {
-        email:doc.email,
-        tenderDetail:{
-        bidderemail:bidderemail,
-        bidderprice:bidderprice,
-        title:title,
-        description:description,
-        initialprice:initialprice,
-        selectedFile:selectedFile
-      }})
-       
+ 
+
+      const data =
+     await PosttenderModel.findOneAndUpdate({"tenderDetail._id":req.params._id},{$addToSet:{tenderDetail:req.body}})
+
       res.json({data})
+      console.log(data)
   } catch (error) {
 console.log(`error during first bid tender's posted data ${error}`);
 
