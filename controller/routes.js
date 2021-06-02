@@ -14,6 +14,6 @@ router.get("/showtenderprofile/:email", showtenderprofile);
 router.get("/deleteTender/:_id", deleteTender);
 router.get("/getAllteders", getAllteders);
 router.put("/updateProfile/:email", updateProfile);
-router.put("/firstbid/:_id", firstbid);
+router.post("/firstbid/:_id", firstbid);
 
 module.exports = router;
