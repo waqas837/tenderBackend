@@ -145,19 +145,17 @@ console.log(`error during getting tender's posted data ${error}`);
 }
 //fist bid
 const firstbid = async (req, res) => {  
- 
       try {
     // note: {object formate array.property does not support dirctly,but we can write it inside the 'qoutes'}
- 
-
-      const data = await PosttenderModel.findOneAndUpdate({"tenderDetail._id":req.params._id},
-                  {$addToSet:{tenderDetail:req.body}})
-
-       
-      res.json({data})
-      console.log(req.body)
-  } catch (error) {
-console.log(`error during first bid tender's posted data ${error}`);
+    const data = await PosttenderModel.findOneAndUpdate({"tenderDetail._id":req.params._id,
+      "tenderDetail.bidderemail":{$ne:req.body.bidderemail}},
+       {$addToSet:{tenderDetail:{
+        bidderemail:req.body.bidderemail,bidderprice:req.body.bidderprice}}},{new:true}) 
+        res.json({data})
+        console.log(req.body)
+  } 
+  catch (error) {
+  console.log(`error during first bid tender's posted data ${error}`);
 
 }
 }
