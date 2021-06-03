@@ -58,12 +58,10 @@ const singin = async (req, res) => {
 
 //
 const tenderPostData = async (req, res) => {   
-  // console.log(req.body)
    try {
-    var data = new PosttenderModel({email:req.body.email,tenderDetail:req.body})
+    var data = new PosttenderModel({email:req.body.email,tenderDetail:req.body},)
     await data.save();
-    // console.log(data)
-      res.json({data})
+    res.json({data})
   
   } catch (error) {
     console.log(`error during tender post the data ${error}`);

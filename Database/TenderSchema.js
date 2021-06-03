@@ -17,12 +17,10 @@ var tenderdetails = new mongoose.Schema({
         required: true,
     },
     bidderemail:{
-        type: String,
-        unique:true
-    },
+         type: String,
+      },
     bidderprice:{
         type: String,
-
     }
 })
 var PostNewtenderSch = new mongoose.Schema({
