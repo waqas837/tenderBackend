@@ -21,6 +21,12 @@ var tenderdetails = new mongoose.Schema({
       },
     bidderprice:{
         type: String,
+    },
+    expirytime:{
+        type:String,
+    },
+    expirydate:{
+        type:String,
     }
 })
 var PostNewtenderSch = new mongoose.Schema({
