@@ -1,5 +1,6 @@
 const { usersignup } = require("../Database/userSchema");
 const {PosttenderModel} = require("../Database/TenderSchema")
+const {admin} = require('../Database/Admin');
 const mongoose = require('mongoose');
 var jwt = require('jsonwebtoken');
 // signup user /tender/poster
@@ -157,9 +158,203 @@ const firstbid = async (req, res) => {
 
 }
 }
+
+//adminSignIn
+const adminSignIn = async (req, res) => {
+  const { email, password} = req.body;
+  // var {authorization} = req.headers
+  // const token = authorization.replace("Bearer ", "");
+  console.log(email,password);
+   try {
+    const isExists = await admin.findOne({email,password});
+     if (isExists===null) {
+      res.json({ err: "admin does not exists" });
+    }
+    if (isExists !== null) {
+       res.json({ success: "true", user: isExists })
+      // jwt.verify(token, 'thisisthesecretkey', function(err, decoded) {
+      //    res.json({ success: "true", user: isExists })  
+      //    if(err){
+      //     res.json({ValidUser:"false"})
+      //    }
+      // });
+      
+    }
+
+  } catch (error) {
+    console.log(`error during sigin of admin ${error}`);
+    console.log(error);
+    // res.json({err:error});
+  }
+}
+
+//getAllUsers for admin
+const getAllUsers = async (req, res) => {
+   // var {authorization} = req.headers
+  // const token = authorization.replace("Bearer ", "");
+    try {
+    const isExists = await usersignup.find();
+     if (isExists===null) {
+      res.json({ err: "something is not good" });
+    }
+    if (isExists !== null) {
+       res.json({ success: "true", user: isExists })
+      // jwt.verify(token, 'thisisthesecretkey', function(err, decoded) {
+      //    res.json({ success: "true", user: isExists })  
+      //    if(err){
+      //     res.json({ValidUser:"false"})
+      //    }
+      // });
+      
+    }
+
+  } catch (error) {
+    console.log(`error during sigin of admin ${error}`);
+    console.log(error);
+    // res.json({err:error});
+  }
+}
+
+//getA singleUsr then next we will edit it
+const getAsingleUsr = async (req, res) => {
+  // var {authorization} = req.headers
+ // const token = authorization.replace("Bearer ", "");
+   try {
+   const isExists = await usersignup.findById({_id:req.params.id});
+    if (isExists===null) {
+     res.json({ err: "something is not good" });
+   }
+   if (isExists !== null) {
+      res.json({ success: "true", user: isExists })
+     // jwt.verify(token, 'thisisthesecretkey', function(err, decoded) {
+     //    res.json({ success: "true", user: isExists })  
+     //    if(err){
+     //     res.json({ValidUser:"false"})
+     //    }
+     // });
+     
+   }
+
+ } catch (error) {
+   console.log(`error during get a single record of the users ${error}`);
+   console.log(error);
+   // res.json({err:error});
+ }
+}
+
+//udpate a singleUsr 
+const updateUsers = async (req, res) => {
+  // var {authorization} = req.headers
+ // const token = authorization.replace("Bearer ", "");
+   try {
+   const isExists = await usersignup.findByIdAndUpdate({_id:req.params.id},req.body);
+    if (isExists===null) {
+     res.json({ err: "something is not good" });
+   }
+   if (isExists !== null) {
+      res.json({ success: "true", user: isExists })
+     // jwt.verify(token, 'thisisthesecretkey', function(err, decoded) {
+     //    res.json({ success: "true", user: isExists })  
+     //    if(err){
+     //     res.json({ValidUser:"false"})
+     //    }
+     // });
+     
+   }
+
+ } catch (error) {
+   console.log(`error during update a single record of the users ${error}`);
+   console.log(error);
+   // res.json({err:error});
+ }
+}
+
+//delete a singleUsr 
+const deleteUsers = async (req, res) => {
+  // var {authorization} = req.headers
+ // const token = authorization.replace("Bearer ", "");
+   try {
+   const isExists = await usersignup.findByIdAndDelete({_id:req.params.id});
+    if (isExists===null) {
+     res.json({ err: "something is not good" });
+   }
+   if (isExists !== null) {
+      res.json({ success: "true", user: isExists })
+     // jwt.verify(token, 'thisisthesecretkey', function(err, decoded) {
+     //    res.json({ success: "true", user: isExists })  
+     //    if(err){
+     //     res.json({ValidUser:"false"})
+     //    }
+     // });
+     
+   }
+
+ } catch (error) {
+   console.log(`error during update a single record of the users ${error}`);
+   console.log(error);
+   // res.json({err:error});
+ }
+}
+
+//delete a singleUsr all tenders 
+const deleteAllTendersForSingleUser = async (req, res) => {
+  // var {authorization} = req.headers
+ // const token = authorization.replace("Bearer ", "");
+ console.log(req.params.id);
+   try {
+   const isExists = await PosttenderModel.findByIdAndDelete({_id:req.params.id});
+    if (isExists===null) {
+     res.json({ err: "something is not good" });
+   }
+   if (isExists !== null) {
+      res.json({ status: "deleted", success:"true", user: isExists })
+     // jwt.verify(token, 'thisisthesecretkey', function(err, decoded) {
+     //    res.json({ success: "true", user: isExists })  
+     //    if(err){
+     //     res.json({ValidUser:"false"})
+     //    }
+     // });
+     
+   }
+
+ } catch (error) {
+   console.log(`error during update a single record of the users ${error}`);
+   console.log(error);
+   // res.json({err:error});
+ }
+}
+//getSingleTender
+const getSingleTender = async (req, res) => {
+  // var {authorization} = req.headers
+ // const token = authorization.replace("Bearer ", "");
+ console.log(req.params.id);
+   try {
+   const isExists = await PosttenderModel.findById({_id:req.params.id});
+    if (isExists===null) {
+     res.json({ err: "something is not good" });
+   }
+   if (isExists !== null) {
+      res.json({ success:"true", user: isExists })
+     // jwt.verify(token, 'thisisthesecretkey', function(err, decoded) {
+     //    res.json({ success: "true", user: isExists })  
+     //    if(err){
+     //     res.json({ValidUser:"false"})
+     //    }
+     // });
+     
+   }
+
+ } catch (error) {
+   console.log(`error during update a single record of the users ${error}`);
+   console.log(error);
+   // res.json({err:error});
+ }
+}
+ 
+
 module.exports = {
   signup,
-  singin,tenderPostData,showtenderdata,
-  showtenderprofile,deleteTender,
-  getAllteders,updateProfile,firstbid
+  singin,tenderPostData,showtenderdata,deleteUsers,
+  showtenderprofile,deleteTender,getSingleTender,
+  getAllteders,updateProfile,firstbid,adminSignIn,getAllUsers,getAsingleUsr,updateUsers,deleteAllTendersForSingleUser
 };
