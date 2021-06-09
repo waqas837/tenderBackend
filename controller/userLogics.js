@@ -350,10 +350,40 @@ const getSingleTender = async (req, res) => {
    // res.json({err:error});
  }
 }
+
+//get getAllBiddersbyid
+const getAllBidders = async (req, res) => {
+ console.log(req.params.id);
+  // var {authorization} = req.headers
+ // const token = authorization.replace("Bearer ", "");
  
+   try {
+   const isExists = await PosttenderModel.findOne({ "tenderDetail._id":req.params.id});
+    console.log(isExists);
+    if (isExists===null) {
+     res.json({ err: "something is not good" });
+   }
+   if (isExists !== null) {
+      res.json({ success:"true", user: isExists })
+     // jwt.verify(token, 'thisisthesecretkey', function(err, decoded) {
+     //    res.json({ success: "true", user: isExists })  
+     //    if(err){
+     //     res.json({ValidUser:"false"})
+     //    }
+     // });
+     
+   }
+
+ } catch (error) {
+   console.log(`error during update a single record of the users ${error}`);
+   console.log(error);
+   // res.json({err:error});
+ }
+}
+  
 
 module.exports = {
-  signup,
+  signup,getAllBidders,
   singin,tenderPostData,showtenderdata,deleteUsers,
   showtenderprofile,deleteTender,getSingleTender,
   getAllteders,updateProfile,firstbid,adminSignIn,getAllUsers,getAsingleUsr,updateUsers,deleteAllTendersForSingleUser
