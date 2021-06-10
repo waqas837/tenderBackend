@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
   const {
-  singin,getSingleTender,getAllBidders,
+  singin,getSingleTender,getAllBidders,getAllBiddersAndAcceptBid,
   signup,tenderPostData,showtenderdata,getAllUsers,updateUsers,deleteUsers,deleteAllTendersForSingleUser,
   showtenderprofile,deleteTender,getAllteders,updateProfile,firstbid,adminSignIn,getAsingleUsr
 } = require("./userLogics");
@@ -29,5 +29,7 @@ router.delete("/deleteAllTendersForSingleUser/:id", deleteAllTendersForSingleUse
 router.get("/getSingleTender/:id", getSingleTender);
 // get a single tender data  
 router.get("/getAllBidders/:id", getAllBidders); 
+// accept a bid 
+router.post("/accept/:id", getAllBiddersAndAcceptBid); 
 
 module.exports = router;

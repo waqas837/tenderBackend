@@ -19,6 +19,10 @@ var tenderdetails = new mongoose.Schema({
     bidderemail:{
          type: String,
       },
+    accepted:{
+          type:Boolean, 
+          default:false
+      },
     bidderprice:{
         type: String,
     },
