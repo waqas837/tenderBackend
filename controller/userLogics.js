@@ -395,7 +395,7 @@ const getAllBiddersAndAcceptBid = async (req, res) => {
      res.json({ err: "something is not good" });
    }
    if (isExists !== null) {
-       res.json({ success:"true", data: isExists })
+        res.json({ success:"true", data: isExists })
      // jwt.verify(token, 'thisisthesecretkey', function(err, decoded) {
      //    res.json({ success: "true", user: isExists })  
      //    if(err){
@@ -413,9 +413,40 @@ const getAllBiddersAndAcceptBid = async (req, res) => {
 }
   
 
+// getmybids
+const getmybids = async (req, res) => {
+  // var {authorization} = req.headers
+ // const token = authorization.replace("Bearer ", "");
+ console.log(req.params.email);
+ const user = req.params.email
+   try {
+   
+  //  find(filter,data)
+  // const isExists = await PosttenderModel.findOne({"tenderDetail.bidderemail":user},'tenderDetail.bidderemail') 
+  const isExists=await PosttenderModel.find({"tenderDetail.bidderemail":user})
+    if (isExists===null) {
+     res.json({ err: "something is not good" });
+   }
+   if (isExists !== null) {
+        res.json({ success:"true", data: isExists })
+     // jwt.verify(token, 'thisisthesecretkey', function(err, decoded) {
+     //    res.json({ success: "true", user: isExists })  
+     //    if(err){
+     //     res.json({ValidUser:"false"})
+     //    }
+     // });
+     
+   }
 
+ } catch (error) {
+   console.log(`error during update a single record of the accept bidd ${error}`);
+   console.log(error);
+   // res.json({err:error});
+ }
+}
+  
 module.exports = {
-  signup,getAllBidders,
+  signup,getAllBidders,getmybids,
   singin,tenderPostData,showtenderdata,deleteUsers,
   showtenderprofile,deleteTender,getSingleTender,getAllBiddersAndAcceptBid,
   getAllteders,updateProfile,firstbid,adminSignIn,getAllUsers,getAsingleUsr,updateUsers,deleteAllTendersForSingleUser

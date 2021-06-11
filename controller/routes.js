@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
   const {
-  singin,getSingleTender,getAllBidders,getAllBiddersAndAcceptBid,
+  singin,getSingleTender,getAllBidders,getAllBiddersAndAcceptBid,getmybids,
   signup,tenderPostData,showtenderdata,getAllUsers,updateUsers,deleteUsers,deleteAllTendersForSingleUser,
   showtenderprofile,deleteTender,getAllteders,updateProfile,firstbid,adminSignIn,getAsingleUsr
 } = require("./userLogics");
@@ -31,5 +31,7 @@ router.get("/getSingleTender/:id", getSingleTender);
 router.get("/getAllBidders/:id", getAllBidders); 
 // accept a bid 
 router.post("/accept/:id", getAllBiddersAndAcceptBid); 
+//get bids has been accepted for a specific bidder
+router.get("/getmybids/:email", getmybids); 
 
 module.exports = router;
