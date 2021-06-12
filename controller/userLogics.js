@@ -421,9 +421,20 @@ const getmybids = async (req, res) => {
  const user = req.params.email
    try {
    
-  //  find(filter,data)
-  // const isExists = await PosttenderModel.findOne({"tenderDetail.bidderemail":user},'tenderDetail.bidderemail') 
-  const isExists=await PosttenderModel.find({"tenderDetail.bidderemail":user})
+  //find(filter,data)
+  //aggregate($match) is same as find(filter)
+  //$elemMatch grips direct to the array of this document
+  //so we can group any field as new field and we can just finding only one expression as distinct/unique values
+  //aggregate has different stages these stages are like the pipelines next to next and we can make some new groups and 
+  //amazing things +project stage will include or exlude the fields like filters
+  //so how to use the elemMatch but we first write the array
+  // const isExists =
+  // await PosttenderModel.find({"tenderDetail.bidderemail":user})
+  const isExists =
+  await PosttenderModel.find({"tenderDetail.bidderemail":user,"tenderDetail.accepted":true},
+  {tenderDetail:{$elemMatch:{bidderemail:user}}}
+  ).select("email")
+   
     if (isExists===null) {
      res.json({ err: "something is not good" });
    }
@@ -439,8 +450,8 @@ const getmybids = async (req, res) => {
    }
 
  } catch (error) {
-   console.log(`error during update a single record of the accept bidd ${error}`);
-   console.log(error);
+   console.log(`error during se a single record of the accept bidd ${error}`);
+   res.json({error});
    // res.json({err:error});
  }
 }
