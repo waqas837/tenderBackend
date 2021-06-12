@@ -384,8 +384,7 @@ const getAllBidders = async (req, res) => {
   
 //get getAllBidders by ID and accept true/false
 const getAllBiddersAndAcceptBid = async (req, res) => {
-  // var {authorization} = req.headers
- // const token = authorization.replace("Bearer ", "");
+  
  
    try {
    const isExists = await PosttenderModel.findOneAndUpdate({ "tenderDetail._id":req.params.id},
@@ -396,12 +395,7 @@ const getAllBiddersAndAcceptBid = async (req, res) => {
    }
    if (isExists !== null) {
         res.json({ success:"true", data: isExists })
-     // jwt.verify(token, 'thisisthesecretkey', function(err, decoded) {
-     //    res.json({ success: "true", user: isExists })  
-     //    if(err){
-     //     res.json({ValidUser:"false"})
-     //    }
-     // });
+      
      
    }
 
@@ -440,13 +434,7 @@ const getmybids = async (req, res) => {
    }
    if (isExists !== null) {
         res.json({ success:"true", data: isExists })
-     // jwt.verify(token, 'thisisthesecretkey', function(err, decoded) {
-     //    res.json({ success: "true", user: isExists })  
-     //    if(err){
-     //     res.json({ValidUser:"false"})
-     //    }
-     // });
-     
+       
    }
 
  } catch (error) {
@@ -455,9 +443,35 @@ const getmybids = async (req, res) => {
    // res.json({err:error});
  }
 }
-  
+ 
+// getmybids
+const notifytender = async (req, res) => {
+   
+ console.log(req.params.email);
+ const user = req.params.email
+   try {
+  const isExists =
+  await PosttenderModel.find({email:user},
+  ).select("tenderDetail.bidderemail tenderDetail.bidderprice")
+   
+    if (isExists===null) {
+     res.json({ err: "something is not good" });
+   }
+   if (isExists !== null) {
+        res.json({ success:"true", data: isExists })
+       
+   }
+
+ } catch (error) {
+   console.log(`error during se a single record of the accept bidd ${error}`);
+   res.json({error});
+   // res.json({err:error});
+ }
+}
+
+
 module.exports = {
-  signup,getAllBidders,getmybids,
+  signup,getAllBidders,getmybids,notifytender,
   singin,tenderPostData,showtenderdata,deleteUsers,
   showtenderprofile,deleteTender,getSingleTender,getAllBiddersAndAcceptBid,
   getAllteders,updateProfile,firstbid,adminSignIn,getAllUsers,getAsingleUsr,updateUsers,deleteAllTendersForSingleUser

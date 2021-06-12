@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
   const {
-  singin,getSingleTender,getAllBidders,getAllBiddersAndAcceptBid,getmybids,
+  singin,getSingleTender,getAllBidders,getAllBiddersAndAcceptBid,getmybids,notifytender,
   signup,tenderPostData,showtenderdata,getAllUsers,updateUsers,deleteUsers,deleteAllTendersForSingleUser,
   showtenderprofile,deleteTender,getAllteders,updateProfile,firstbid,adminSignIn,getAsingleUsr
 } = require("./userLogics");
@@ -33,5 +33,6 @@ router.get("/getAllBidders/:id", getAllBidders);
 router.post("/accept/:id", getAllBiddersAndAcceptBid); 
 //get bids has been accepted for a specific bidder
 router.get("/getmybids/:email", getmybids); 
-
+//show notification to tender also
+router.get("/notifytender/:email",notifytender ); 
 module.exports = router;
