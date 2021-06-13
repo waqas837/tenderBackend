@@ -436,9 +436,8 @@ const getmybids = async (req, res) => {
 const notifytender = async (req, res) => {
   const user = req.params.email;
   try {
-    const isExists = await PosttenderModel.find({ email: user }).select(
-      "tenderDetail.bidderemail tenderDetail.bidderprice"
-    );
+    const isExists = await PosttenderModel.find({email:user}).select("tenderDetail")
+
 
     if (isExists === null) {
       res.json({ err: "something is not good" });
