@@ -121,8 +121,7 @@ const getAllteders = async (req, res) => {
 //find data from the embbeded document
 const updateProfile = async (req, res) => {
   try {
-    //note: {object formate array.property does not support dirctly,but we can write it inside the 'qoutes'}
-    const data = await usersignup.findOneAndUpdate(
+     const data = await usersignup.findOneAndUpdate(
       { email: req.params.email },
       req.body,
       {
@@ -354,7 +353,7 @@ const getAllBidders = async (req, res) => {
       "tenderDetail._id": req.params.id,
     });
 
-    console.log(isExists);
+   
     if (isExists === null) {
       res.json({ err: "something is not good" });
     }
@@ -402,7 +401,7 @@ const getAllBiddersAndAcceptBid = async (req, res) => {
 const getmybids = async (req, res) => {
   // var {authorization} = req.headers
   // const token = authorization.replace("Bearer ", "");
-  console.log(req.params.email);
+  
   const user = req.params.email;
   try {
     //find(filter,data)
@@ -452,6 +451,51 @@ const notifytender = async (req, res) => {
   }
 };
 
+// getting tenders by only email
+const showTendersForSingleTender = async (req, res) => {
+  const user = req.params.email;
+  try {
+    const isExists = await PosttenderModel.aggregate([{$match:{email:user}}
+      ,{$group:{_id:"$tenderDetail.title"}}])
+
+ 
+    if (isExists === null) {
+      res.json({ err: "something is not good" });
+    }
+    if (isExists !== null) {
+      res.json({ success: "true",email:user , data: isExists });
+    }
+  } catch (error) {
+    console.log(`error during notifying tender ${error}`);
+    res.json({ error });
+    // res.json({err:error});
+  }
+};
+
+// getting tenders by only email
+const getRequired = async (req, res) => {
+  const user = req.params.email;
+  const title = req.params.title;
+  
+  try {
+    const isExists = await PosttenderModel.findOne({email:user,"tenderDetail.title":title},)
+ 
+    if (isExists === null) {
+      res.json({ err: "something is not good" });
+    }
+    if (isExists !== null) {
+      res.json({ success: "true",email:user , data: isExists });
+    }
+  } catch (error) {
+    console.log(`error during finding one sinlge tender ${error}`);
+    res.json({ error });
+    // res.json({err:error});
+  }
+};
+
+
+
+
 module.exports = {
   signup,
   getAllBidders,
@@ -473,4 +517,5 @@ module.exports = {
   getAsingleUsr,
   updateUsers,
   deleteAllTendersForSingleUser,
+  showTendersForSingleTender,getRequired
 };

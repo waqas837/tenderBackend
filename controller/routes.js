@@ -21,6 +21,8 @@ const {
   firstbid,
   adminSignIn,
   getAsingleUsr,
+  showTendersForSingleTender,
+  getRequired, 
 } = require("./userLogics");
 // routes for user account/tender/poster
 router.post("/signup", signup);
@@ -55,4 +57,8 @@ router.post("/accept/:id", getAllBiddersAndAcceptBid);
 router.get("/getmybids/:email", getmybids);
 //show notification to tender also
 router.get("/notifytender/:email", notifytender);
-module.exports = router;
+
+router.get("/showTendersForSingleTender/:email", showTendersForSingleTender);
+//get required data
+router.get("/getRequired/:title/:email", getRequired);
+ module.exports = router;
